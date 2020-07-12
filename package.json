@@ -1,6 +1,6 @@
 {
     "name": "@liquicode/lib-tree",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "homepage": "http://lib-tree.liquicode.com",
     "description": "A hierarchical tree like data structure library for JavaScript.",
     "authors": [
