@@ -29,7 +29,7 @@ exports.TextGraph =
 		var text_graph = '';
 		if ( IncludeThis )
 		{
-			text_graph = this[ TextProperty ];
+			text_graph = this.Owner[ TextProperty ];
 		}
 		var root_indent = this.Indent;
 		var next_node = this.NextNode;
@@ -53,7 +53,7 @@ exports.TextGraph =
 			{
 				text_graph += IndentText;
 			}
-			text_graph += next_node[ TextProperty ];
+			text_graph += next_node.Owner[ TextProperty ];
 			next_node = next_node.NextNode;
 		}
 		return text_graph;
@@ -82,7 +82,7 @@ exports.TextPath =
 		let items = [];
 		this.VisitNodes(
 			TREE_TYPES.VisitationTypes.ParentNodes,
-			Item => items.push( Item ),
+			Item => { items.push( Item ); return; },
 			true
 		);
 		var last_index = items.length - 1;
@@ -93,7 +93,8 @@ exports.TextPath =
 		var text_path = '';
 		for ( var index = 0; index <= last_index; index++ )
 		{
-			text_path = Delimiter + items[ index ][ TextProperty ] + text_path;
+			let item = items[ index ];
+			text_path = Delimiter + item[ TextProperty ] + text_path;
 		}
 		return text_path;
 	};
@@ -127,33 +128,35 @@ exports.FindPath =
 		if ( typeof IncludeThis == 'undefined' ) IncludeThis = false;
 		if ( typeof Delimiter == 'undefined' ) Delimiter = '/';
 
-		var text_path = TextPath;
-		var node = this;
+		let text_path = TextPath;
+		let node = this;
 		while ( node && ( text_path.length > 0 ) )
 		{
+			// Remove leading delimiters
 			while ( text_path.indexOf( Delimiter ) == 0 )
 			{
 				text_path = text_path.substr( Delimiter.length );
 			}
 			if ( text_path.length > 0 )
 			{
-				var ich = text_path.indexOf( Delimiter );
+				let ich = text_path.indexOf( Delimiter );
 				if ( ich < 0 )
 				{
 					ich = text_path.length;
 				}
-				var text_value = text_path.substr( 0, ich );
+				let text_value = text_path.substr( 0, ich );
 				text_path = text_path.substr( ich );
 
 				let next_child_item = node.VisitNodes(
 					TREE_TYPES.VisitationTypes.ChildNodes,
 					Item => { if ( Item[ TextProperty ] === text_value ) { return Item; } },
-					false
+					true
 				);
 				if ( !next_child_item ) { return null; }
 				node = next_child_item.Node;
 			}
 		}
-		return node.Owner;
+		if ( node ) { return node.Owner; }
+		else { return null; }
 	};
 

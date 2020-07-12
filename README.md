@@ -1,11 +1,15 @@
 
+# lib-tree
 
+```
+formerly...
 	 _ _  _            _ _         _        _  ___ 
 	| | |<_> ___  _ _ | \ | ___  _| | ___  | |/ __>
 	|   || |/ ._>| '_>|   |/ . \/ . |/ ._>_| |\__ \
 	|_|_||_|\___.|_|  |_\_|\___/\___|\___.\__/<___/
-	                                             
+```                                             
 
+```
 	D3 = C2.Prev        A1
 	C3 = C2.Next         +- B1
 	A1 = C1.First        |   +- C1
@@ -20,6 +24,7 @@
 	B3 = A1.LastChild    |   +- C6
 	B1 = A1.FirstDesc    +- B3
 	C7 = A1.LastDesc         +- C7
+```
 
 ---------------------------------------------------------------------
 
@@ -27,123 +32,85 @@
 
 **Bower**
 
-	bower install hiernodejs
+	<not yet supported>
 
 **NPM**
 
-	npm install hiernodejs
+	npm install @liquicode/lib-tree
 
 ---------------------------------------------------------------------
 
 ## Usage
 
-**HTML Page**
-
-	<script type="text/javascript" src="bower_component/hiernodejs/hiernode.js"></script>
-
-or
-
-	<script type="text/javascript" src="bower_component/hiernodejs/hiernode.min.js"></script>
-
-
 **Using with Simple Objects**
+```js
+const libTree = require('lib-tree');
 
-	// Create a (root) node.
-	var node = HierNode();
-	node.Name = "People";
-	
-	// Create a child node.
-	var child = node.AddChild();
-	child.Name = "Alice";
-	
-	// Test the relationships.
-	if( child.PrevNode() === node ) { Alert("Yes"); }
-	if( child.FindRoot() === node ) { Alert("Yes"); }
-	if( node.FindFirstChild() === child ) { Alert("Yes"); }
+// Create a (root) node.
+let root = libTree.AsNode('Root Node');
 
-**Using with Defined Objects**
+// Create a child node.
+let alice = root.Node.AddChild('Alice'); // alice.Data === 'Alice'
 
-	// Create a root node for "People".
-	var node = HierNode( { "Name": "People", "IsGroup": true } );
-	
-	// Create some People objects.
-	node.AddChild( { "Name": "Alice", "Age": 22, "Dept": "IT" } );
-	node.AddChild( { "Name": "Bob", "Age": 24, "Dept": "IT" } );
-	node.AddChild( { "Name": "Eve", "Age": 29, "Dept": "HR" } );
+// Create children of children.
+let sue = child.Node.AddChild('Sue'); // sue.Data === 'Sue'
+let sam = child.Node.AddChild('Sam'); // sam.Data === 'Sam'
 
-	// Search all the People objects.
-	var nodes = node.SearchDescendents( "Dept", "IT" );
-	// nodes is an array containing the "Alice" and "Bob" objects.
+// Create many children at once.
+root.Node.AddChildren(['Bob', 'Eve']);
 
-**Using with Predefined Objects**
+// Access children by child index.
+let bob = root.Node.Child( 1 ); // bob.Data === 'Bob'
+let eve = root.Node.Child( 2 ); // eve.Data === 'Eve'
 
-	// Create a root node for "People".
-	var node = HierNode( new MyGroup( "People" ) );
-	
-	// Create some People objects.
-	node.AddChild( new MyPerson( "Alice", 22, "IT" ) );
-	node.AddChild( new MyPerson( "Bob", 24, "IT" ) );
-	node.AddChild( new MyPerson( "Eve", 29, "HR" ) );
+// Navigate relationships.
+let alice_children = alice.Node.Children(); // [ 'Sue', 'Sam' ]
+let sue_parent = sue.Node.FindParentNode(); // sue_parent.Data === 'Alice'
+let sue_sibling = sue.Node.FindNextSiblingNode()); // sue_sibling.Data === 'Sam'
+```
 
-	// Search all the People objects.
-	var nodes = node.SearchDescendents( "Dept", "IT" );
-	// nodes is an array containing the "Alice" and "Bob" objects.
+**Using with Objects**
+```js
+const libTree = require('lib-tree');
 
+// Create a root node for "People".
+var people = libTree.AsNode( { "Name": "People", "IsGroup": true } );
 
----------------------------------------------------------------------
+// Create some People objects.
+let alice = people.Node.AddChild( { "Name": "Alice", "Age": 22, "Dept": "IT" } );
+let bob = people.Node.AddChild( { "Name": "Bob", "Age": 24, "Dept": "IT" } );
+let eve = people.Node.AddChild( { "Name": "Eve", "Age": 29, "Dept": "HR" } );
+```
 
-## History
-
-[current](https://github.com/agbowlin/hiernodejs/tree/master) : [now]
-
-[v0.1.14](https://github.com/agbowlin/hiernodejs/tree/v0.1.14) : [presently]
-
-
-[v0.1.13](https://github.com/agbowlin/hiernodejs/tree/v0.1.13) : [2016-07-31]
-- Fixed exports for browser and nodejs.
-- Added NodeJS tests.
-
-[v0.1.12](https://github.com/agbowlin/hiernodejs/tree/v0.1.12) : [2016-07-31]
-- Added functions:
-	- TextPath(ThisNode, TextProperty, IncludeRoot = true, Delimiter = '/')
-	- FindPath(RootNode, TextPath, TextProperty, IncludeRoot = false, Delimiter = '/')
-	- AddChildren(NodeArray)
-- Breaking changes everywhere.
-	
-[v0.1.11](https://github.com/agbowlin/hiernodejs/tree/v0.1.11) : [2016-07-30]
-- Tightened up the HierNodeLib API.
-- Added documentation (jsdoc).
-
-[v0.1.10](https://github.com/agbowlin/hiernodejs/tree/v0.1.10) : [2016-07-26]
-- Initial release.
 
 ---------------------------------------------------------------------
 
 ## License
 
-	Copyright © 2015-2016 hiernode.js authors
-	
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
-	
-	The above copyright notice and this permission notice shall be included in
-	all copies or substantial portions of the Software.
-	
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-	THE SOFTWARE.
+The MIT License
+
+Copyright © 2015-2020 Andre' G. Bowlin
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 
 ---------------------------------------------------------------------
 
 ## TODO
 
 - More formal build tool (gulp or grunt?)
-- More formal testing tool (qunit?)

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Home - Documentation</title>
+    <title>tree-types.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -27,120 +27,70 @@
 
 <div id="main">
     
+    <h1 class="page-title">tree-types.js</h1>
+    
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
 
 
+//==========================================
+/**
+ * @enum		{string} RelationshipTypes
+ * @memberof	lib-tree
+ * @readonly
+ * @summary		Relationship types used for calling FindRelative().
+ */
+const RelationshipTypes =
+{
+	PrevNode: 'PrevNode',
+	NextNode: 'NextNode',
+	FirstNode: 'FirstNode',
+	LastNode: 'LastNode',
+	RootNode: 'RootNode',
+	ParentNode: 'ParentNode',
+	PrevSibNode: 'PrevSibNode',
+	NextSibNode: 'NextSibNode',
+	FirstSibNode: 'FirstSibNode',
+	LastSibNode: 'LastSibNode',
+	FirstChildNode: 'FirstChildNode',
+	LastChildNode: 'LastChildNode',
+	FirstDescNode: 'FirstDescNode',
+	LastDescNode: 'LastDescNode'
+};
+exports.RelationshipTypes = RelationshipTypes;
 
 
+//==========================================
+/** 
+ * @enum		{string} VisitationTypes
+ * @memberof	lib-tree
+ * @readonly
+ * @summary		Visitation types used for calling VisitNodes().
+ */
+const VisitationTypes =
+{
+	AllNodes: 'AllNodes',
+	PrevNodes: 'PrevNodes',
+	NextNodes: 'NextNodes',
+	ParentNodes: 'ParentNodes',
+	SiblingNodes: 'SiblingNodes',
+	PrevSibNodes: 'PrevSibNodes',
+	NextSibNodes: 'NextSibNodes',
+	ChildNodes: 'ChildNodes',
+	DescendantNodes: 'DescendantNodes',
+};
+exports.VisitationTypes = VisitationTypes;
 
-
-
-
-
-    
-
-
-    <section class="readme">
-        <article><h1>lib-tree</h1>
-<pre class="prettyprint source"><code>formerly...
-	 _ _  _            _ _         _        _  ___ 
-	| | |&lt;_> ___  _ _ | \ | ___  _| | ___  | |/ __>
-	|   || |/ ._>| '_>|   |/ . \/ . |/ ._>_| |\__ \
-	|_|_||_|\___.|_|  |_\_|\___/\___|\___.\__/&lt;___/
 </code></pre>
-<pre class="prettyprint source"><code>	D3 = C2.Prev        A1
-	C3 = C2.Next         +- B1
-	A1 = C1.First        |   +- C1
-	C7 = C1.Last         |   |   +- D1
-	A1 = C1.Root         |   |   +- D2
-	B1 = C1.Parent       |   |   +- D3
-	C1 = C2.PrevSib      |   +- C2
-	C2 = C1.NextSib      |   +- C3
-	C1 = C1.FirstSib     +- B2
-	C3 = C1.LastSib      |   +- C4
-	B1 = A1.FirstChild   |   +- C5
-	B3 = A1.LastChild    |   +- C6
-	B1 = A1.FirstDesc    +- B3
-	C7 = A1.LastDesc         +- C7
-</code></pre>
-<hr>
-<h2>Installation</h2>
-<p><strong>Bower</strong></p>
-<pre><code>&lt;not yet supported&gt;
-</code></pre>
-<p><strong>NPM</strong></p>
-<pre><code>npm install @liquicode/lib-tree
-</code></pre>
-<hr>
-<h2>Usage</h2>
-<p><strong>Using with Simple Objects</strong></p>
-<pre class="prettyprint source lang-js"><code>const libTree = require('lib-tree');
-
-// Create a (root) node.
-let root = libTree.AsNode('Root Node');
-
-// Create a child node.
-let alice = root.Node.AddChild('Alice'); // alice.Data === 'Alice'
-
-// Create children of children.
-let sue = child.Node.AddChild('Sue'); // sue.Data === 'Sue'
-let sam = child.Node.AddChild('Sam'); // sam.Data === 'Sam'
-
-// Create many children at once.
-root.Node.AddChildren(['Bob', 'Eve']);
-
-// Access children by child index.
-let bob = root.Node.Child( 1 ); // bob.Data === 'Bob'
-let eve = root.Node.Child( 2 ); // eve.Data === 'Eve'
-
-// Navigate relationships.
-let alice_children = alice.Node.Children(); // [ 'Sue', 'Sam' ]
-let sue_parent = sue.Node.FindParentNode(); // sue_parent.Data === 'Alice'
-let sue_sibling = sue.Node.FindNextSiblingNode()); // sue_sibling.Data === 'Sam'
-</code></pre>
-<p><strong>Using with Objects</strong></p>
-<pre class="prettyprint source lang-js"><code>const libTree = require('lib-tree');
-
-// Create a root node for &quot;People&quot;.
-var people = libTree.AsNode( { &quot;Name&quot;: &quot;People&quot;, &quot;IsGroup&quot;: true } );
-
-// Create some People objects.
-let alice = people.Node.AddChild( { &quot;Name&quot;: &quot;Alice&quot;, &quot;Age&quot;: 22, &quot;Dept&quot;: &quot;IT&quot; } );
-let bob = people.Node.AddChild( { &quot;Name&quot;: &quot;Bob&quot;, &quot;Age&quot;: 24, &quot;Dept&quot;: &quot;IT&quot; } );
-let eve = people.Node.AddChild( { &quot;Name&quot;: &quot;Eve&quot;, &quot;Age&quot;: 29, &quot;Dept&quot;: &quot;HR&quot; } );
-</code></pre>
-<hr>
-<h2>License</h2>
-<p>The MIT License</p>
-<p>Copyright © 2015-2020 Andre' G. Bowlin</p>
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the &quot;Software&quot;), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:</p>
-<p>The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.</p>
-<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.</p>
-<hr>
-<h2>TODO</h2>
-<ul>
-<li>More formal build tool (gulp or grunt?)</li>
-</ul></article>
+        </article>
     </section>
-
-
 
 
 

@@ -1,10 +1,10 @@
 #!/bin/bash
 . .build-env
 echo "------------------------------------------"
-echo "01-docs-build-docker.sh"
+echo "11-docs-deploy-docker.sh"
 echo " - REPO_URL    = $REPO_URL"
 echo " - AWS_PROFILE = $AWS_PROFILE"
 echo "------------------------------------------"
 
-docker build -t lib-json.liquicode.com:latest . --file lib-json.liquicode.com.dockerfile
-docker tag lib-json.liquicode.com:latest $REPO_URL/lib-json.liquicode.com
+docker login -u AWS -p $(aws ecr get-login-password --profile $AWS_PROFILE) $REPO_URL
+docker push $REPO_URL/lib-tree.liquicode.com

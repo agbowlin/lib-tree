@@ -45,7 +45,7 @@ const VisitationTypes =
 	PrevSibNodes: 'PrevSibNodes',
 	NextSibNodes: 'NextSibNodes',
 	ChildNodes: 'ChildNodes',
-	DecendantNodes: 'DecendantNodes',
+	DescendantNodes: 'DescendantNodes',
 };
 exports.VisitationTypes = VisitationTypes;
 

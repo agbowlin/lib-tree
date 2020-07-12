@@ -1,7 +1,7 @@
 {
     "name": "lib-tree",
     "version": "0.2.0",
-    "homepage": "https://github.com/agbowlin/lib-tree.git",
+    "homepage": "http://lib-tree.liquicode.com",
     "description": "A hierarchical tree like data structure library for JavaScript.",
     "authors": [
         {
@@ -47,8 +47,9 @@
     ],
     "scripts": {
         "test": "mocha -u bdd tests",
-        "01-docs-build-docker": "bash build/docs/01-docs-build-docker.sh",
-        "02-docs-deploy-docker": "bash build/docs/02-docs-deploy-docker.sh",
+        "01-docs-build-jsdoc": "bash build/docs/01-docs-build-jsdoc.sh",
+        "10-docs-build-docker": "bash build/docs/10-docs-build-docker.sh",
+        "11-docs-deploy-docker": "bash build/docs/11-docs-deploy-docker.sh",
         "01-lib-build-webpack": "bash build/lib/01-lib-build-webpack.sh",
         "02-lib-publish-npm": "bash build/lib/02-lib-publish-npm.sh"
     },
