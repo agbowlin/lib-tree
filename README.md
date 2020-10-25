@@ -28,6 +28,19 @@ formerly...
 
 ---------------------------------------------------------------------
 
+## About
+
+`lib-tree` is a function library for NodeJS which allows you to
+navigate and manipulate a hierarchy of objects.
+
+Tree functions can be added to any object, enabling it to add and
+remove child objects.
+
+In addition to hierarchy maintenance, the library has many functions
+to navigate and find nodes within the hierarchy.
+
+---------------------------------------------------------------------
+
 ## Installation
 
 **Bower**
