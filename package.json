@@ -50,7 +50,7 @@
         "01-lib-build-webpack": "bash build/lib/01-lib-build-webpack.sh",
         "02-lib-publish-npm": "bash build/lib/02-lib-publish-npm.sh",
         "101-s3-sync": "bash build/s3/101-s3-sync.sh"
-        },
+    },
     "devDependencies": {
         "bower": "^1.7.9",
         "jsdoc": "^3.4.0",
